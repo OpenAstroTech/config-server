@@ -3,16 +3,13 @@ import json
 import uvicorn
 from fastapi import FastAPI
 from mongoengine import connect
-from pydantic import BaseModel, Field, BaseSettings
+from pydantic import BaseModel, Field, BaseSettings, MongoDsn
 
 from app import models
 
 
 class AppSettings(BaseSettings):
-    mongo_host: str
-    mongo_port: int
-    mongo_root_user: str
-    mongo_root_password: str
+    mongo_connection_string: MongoDsn
 
     class Config:
         env_file = '.env'
@@ -34,11 +31,8 @@ class Configuration(BaseModel):
 app = FastAPI()
 
 db = connect(
-    "oat",
-    host=settings.mongo_host,
-    port=settings.mongo_port,
-    username=settings.mongo_root_user,
-    password=settings.mongo_root_password
+    "configurations",
+    host=settings.mongo_connection_string
 )
 
 
