@@ -1,0 +1,5 @@
+uvicorn~=0.20.0
+fastapi~=0.92.0
+mongoengine~=0.26.0
+pydantic~=1.10.5
+python-dotenv~=1.0.0
