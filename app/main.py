@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 import uvicorn
 from fastapi import FastAPI, Request
@@ -15,11 +16,11 @@ from app.settings import *
 
 
 class Configuration(BaseModel):
-    lat: float = Field()
-    lon: float = Field()
-    config_file: str = Field()
-    pio_env: str = Field()
-    release_version: str = Field()
+    approx_lat: float = Field()
+    approx_lon: float = Field()
+    config_file: Optional[str] = Field()
+    pio_env: Optional[str] = Field()
+    release_version: Optional[str] = Field()
     uuid: str = Field()
 
 
