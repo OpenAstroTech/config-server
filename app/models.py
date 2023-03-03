@@ -2,9 +2,9 @@ from mongoengine import *
 
 
 class Configuration(Document):
-    lat = FloatField(min_value=-90, max_value=90)
-    lon = FloatField(min_value=-180, max_value=180)
-    config_file = StringField()
-    pio_env = StringField()
-    release_version = StringField()
+    approx_lat = FloatField(min_value=-90, max_value=90)
+    approx_lon = FloatField(min_value=-180, max_value=180)
+    config_file = StringField(default='', null=True)
+    pio_env = StringField(default='', null=True)
+    release_version = StringField(default='', null=True)
     uuid = StringField()
