@@ -21,7 +21,7 @@ class Configuration(BaseModel):
     config_file: Optional[str] = Field()
     pio_env: Optional[str] = Field()
     release_version: Optional[str] = Field()
-    uuid: str = Field()
+    host_uuid: str = Field()
 
 
 app = FastAPI()
