@@ -57,4 +57,4 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n oatconf -g rg-oatconf --server docker.io --username  ${{ secrets.OATCONF_REGISTRY_USERNAME }} --password ${{ secrets.OATCONF_REGISTRY_PASSWORD }}
-            az containerapp update -n oatconf -g rg-oatconf --image openastrotech/config-server:${{ github.sha }}
+            az containerapp update --ids $(az resource list --tag stage=dev --tag image=openastrotech/config-server --query "[*].id | join(' ', @)") --image openastrotech/config-server:${{ github.sha }}
