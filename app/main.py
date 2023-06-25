@@ -2,7 +2,7 @@ import json
 from typing import Optional
 
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from mongoengine import connect
 from opencensus.ext.azure.trace_exporter import AzureExporter
 from opencensus.trace.attributes_helper import COMMON_ATTRIBUTES
@@ -12,7 +12,7 @@ from opencensus.trace.tracer import Tracer
 from pydantic import BaseModel, Field
 
 from app import models
-from app.settings import *
+from app.settings import settings
 
 
 class Configuration(BaseModel):
@@ -26,10 +26,7 @@ class Configuration(BaseModel):
 
 app = FastAPI()
 
-db = connect(
-    "configurations",
-    host=settings.mongo_connection_string
-)
+db = connect("configurations", host=settings.mongo_connection_string)
 
 exporter = None
 
@@ -50,13 +47,20 @@ async def middleware_appinsights(request: Request, call_next):
         response = await call_next(request)
 
         tracer.add_attribute_to_current_span(
-            attribute_key=COMMON_ATTRIBUTES['HTTP_STATUS_CODE'],
-            attribute_value=response.status_code)
+            attribute_key=COMMON_ATTRIBUTES["HTTP_STATUS_CODE"],
+            attribute_value=response.status_code,
+        )
         tracer.add_attribute_to_current_span(
-            attribute_key=COMMON_ATTRIBUTES['HTTP_URL'],
-            attribute_value=str(request.url))
+            attribute_key=COMMON_ATTRIBUTES["HTTP_URL"],
+            attribute_value=str(request.url),
+        )
 
     return response
+
+
+@app.get("/health")
+async def health_status():
+    return Response(status_code=200)
 
 
 @app.post("/config")
