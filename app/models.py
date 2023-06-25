@@ -7,4 +7,4 @@ class Configuration(Document):
     config_file = StringField(default='', null=True)
     pio_env = StringField(default='', null=True)
     release_version = StringField(default='', null=True)
-    uuid = StringField()
+    host_uuid = StringField()
