@@ -36,13 +36,13 @@ class AppInsightsMiddleware(BaseHTTPMiddleware):
             with self.tracer.span("main") as span:
                 span.span_kind = SpanKind.SERVER
 
-            self.tracer.add_attribute_to_current_span(
-                attribute_key=COMMON_ATTRIBUTES["HTTP_STATUS_CODE"],
-                attribute_value=response.status_code,
-            )
-            self.tracer.add_attribute_to_current_span(
-                attribute_key=COMMON_ATTRIBUTES["HTTP_URL"],
-                attribute_value=str(request.url),
-            )
+                self.tracer.add_attribute_to_current_span(
+                    attribute_key=COMMON_ATTRIBUTES["HTTP_STATUS_CODE"],
+                    attribute_value=response.status_code,
+                )
+                self.tracer.add_attribute_to_current_span(
+                    attribute_key=COMMON_ATTRIBUTES["HTTP_URL"],
+                    attribute_value=str(request.url),
+                )
 
         return response
