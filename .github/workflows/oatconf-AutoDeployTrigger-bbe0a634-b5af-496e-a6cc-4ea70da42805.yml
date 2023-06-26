@@ -57,4 +57,4 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             CONTAINER_APP_IDS=$(az resource list --tag stage=dev --tag image=openastrotech/config-server --query "[*].id | join(' ', @)" | sed 's|"||g')
-            az containerapp update --ids "$CONTAINER_APP_IDS" --image openastrotech/config-server:${{ github.sha }}
+            echo $CONTAINER_APP_IDS | xargs az containerapp update --image openastrotech/config-server:${{ github.sha }} --ids
