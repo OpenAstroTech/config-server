@@ -59,7 +59,7 @@ jobs:
 
             RESOURCE_LIST_QUERY="[?tags.stage == 'dev' && tags.image == 'openastrotech/config-server' && tags.application == 'config'].id"
             CONTAINER_APP_IDS=$(az resource list --query "$RESOURCE_LIST_QUERY")
-            for res_id in $(echo "$CONTAINER_APP_IDS" | jq -c -r '.[]'); do 
-              echo "updating: $res_id"
-              az containerapp update --ids "$res_id" --image openastrotech/config-server:${{ github.sha }}
+            for app_id in $(echo "$CONTAINER_APP_IDS" | jq -c -r '.[]'); do 
+              echo "updating: $app_id"
+              az containerapp update --ids "$app_id" --image openastrotech/config-server:${{ github.sha }}
             done
