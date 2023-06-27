@@ -1,5 +1,5 @@
 from enum import Enum
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 from pydantic import BaseModel
 
 router = APIRouter(tags=["Status"])
@@ -17,3 +17,8 @@ class Health(BaseModel):
 @router.get("/health")
 async def health() -> Health:
     return Health(api=HealthStatus.UP)
+
+
+@router.head("/health")
+async def health_silent() -> Health:
+    return Response(status_code=200)
